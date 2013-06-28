@@ -25,7 +25,7 @@ var server = http.createServer(function(req, res) {
     var esReq = http.request({
             hostname: "localhost",
             port: 9200, // the default elasticsearch port
-            path: "/blog/document/_search?q=" + query,
+            path: "/INDEX/TYPE/_search?q=" + query,
             method: "POST"  
         },
         function(esRes) {
@@ -75,7 +75,7 @@ var server = http.createServer(function(req, res) {
               "Accept-Ranges": "bytes",
               "Content-Length": Buffer.byteLength(_s + "\n"),
               "Connection": "close",
-              "Access-Control-Allow-Origin": "http://webbrickworks.com"
+              "Access-Control-Allow-Origin": "YOUR_DOMAIN"
             });
 
             res.end(_s + "\n");

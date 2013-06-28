@@ -48,7 +48,7 @@ var fs = require("fs"),
     httpParams = {
         hostname: "localhost",
         port: 9200, // the default elasticsearch port
-        path: "/blog/document"
+        path: "/INDEX/TYPE"
     },
     req, // this will hold our request
     indexed = JSON.parse(fs.readFileSync("./search_indexed.json", { encoding: "utf8" })),
@@ -58,7 +58,7 @@ var fs = require("fs"),
 
 function add(data) {
     httpParams.method = "POST";
-    httpParams.path = "/blog/document";
+    httpParams.path = "/INDEX/TYPE";
 
     req = http.request(httpParams, function(res) {
         //console.log('STATUS: ' + res.statusCode);
@@ -83,7 +83,7 @@ function add(data) {
 
 function update(data, id) {
     httpParams.method = "PUT";
-    httpParams.path = "/blog/document/" + id;
+    httpParams.path = "/INDEX/TYPE/" + id;
 
     req = http.request(httpParams, function(res) {
         console.log('STATUS: ' + res.statusCode);
