@@ -2,6 +2,8 @@ Ever wanted to make your Jekyll site searchable? Well now you can!
 
 Using the power of [elasticsearch](http://elasticsearch.org) and Node!
 
+For more info on this, and to find out how to set it up, read this blog post: [Making Jekyll searchable with elasticearch](http://webbrickworks.com/blog/2013/06/27/making-jekyll-searchable-with-elasticearch.html); 
+
 In this repository you will find a little Jekyll template that will render a JSON file that is easily parsable and contains all the relevant information.
 This JSON file will then be used by <code>indexer.js</code> to index your site via the elasticsearch API. If you only changed a file, it will update the entry and not create a new one, preventing duplicate entries. See <code>indexer.js</code> for more info on how it works.
 
