@@ -1,4 +1,4 @@
-Ever wanted to make your Jekyll site searchable? Well now you can! 
+Ever wanted to make your Jekyll site searchable? Well, now you can! 
 
 Using the power of [elasticsearch](http://elasticsearch.org) and Node!
 
