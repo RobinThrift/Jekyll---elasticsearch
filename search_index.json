@@ -1,0 +1,32 @@
+---
+layout: none
+---
+[
+    {% for page in site.pages %}
+        {% if page.title == "About" %}
+            {
+                "title": "{{ page.title }}",
+                "url": "{{ site.url }}{{ page.url }}",
+                "path": "{{ page.url }}",
+                "content": "{{ page.content | strip_html | strip_newlines}}"
+            },
+        {% endif %}
+    {% endfor %}
+
+    {% for post in site.posts %}
+        {% if post.draft != true %}
+            {
+                "title": "{{ post.title }}",
+                {% if post.gh_only %}
+                    "url": "{{ post.github }}",
+                {% else %}
+                    "url": "{{ site.url }}{{ post.url }}",
+                {% endif %}
+                "path": "{{ post.url }}",
+                "content": "{{ post.content | strip_html | strip_newlines}}",
+                "categories": "{{ post.categories }}",
+                "date": "{{ post.date }}"
+            }{% if forloop.last != true %},{% endif %}
+        {% endif %}
+    {% endfor %}
+]
