@@ -1,7 +1,7 @@
 /*
 
-    This little nod script takes a JSON file and compares it to it's index, to see, if the file has changed or not.
-    If it has changed, or is new, update the elsaticsearch index.
+    This little node script takes a JSON file and compares it to its index, to see if the file has changed or not.
+    If it has changed, or is new, update the elasticsearch index.
 
     So first we require the filesystem to read the search_indexed.json, the file created by this script, to retrieve
     the documents that have already been indexed as a JS object where the key of a document is the title.
