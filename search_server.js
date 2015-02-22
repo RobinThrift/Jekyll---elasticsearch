@@ -76,9 +76,6 @@ var server = http.createServer(function(req, res) {
                 data.error = _d.error;
             }
 
-            //console.log(require("util").inspect(_d.hits));
-
-
            
             console.log(data);
 
