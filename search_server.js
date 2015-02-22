@@ -7,7 +7,9 @@
 */
 
 var http = require("http"),
-    url  = require('url');
+    url  = require('url'),
+    config = require('./config.js'),
+    httpParams = config.httpParams;
 
 
 var server = http.createServer(function(req, res) {
