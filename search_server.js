@@ -64,7 +64,7 @@ var server = http.createServer(function(req, res) {
             
             data.hits = [];
 
-            if (_d.status === 200) {
+            if (typeof(_d.error) === 'undefined') {
                 data.total = _d.hits.total;
                 _d.hits.hits.forEach(function(hit) {
                     data.hits.push({
