@@ -6,10 +6,11 @@
 
 */
 
-var http = require("http"),
+var http = require('http'),
     url  = require('url'),
     config = require('./config.js'),
-    httpParams = config.httpParams;
+    httpParams = config.httpParams,
+    serverParams = config.serverParams;
 
 
 var server = http.createServer(function(req, res) {
@@ -17,19 +18,21 @@ var server = http.createServer(function(req, res) {
     console.log("Retrieved search request...");
 
     var url_parts = url.parse(req.url, true),
-        query     = url_parts.query.q, // this is our search query
+        query     = url_parts.query.q || '', // this is our search query
         data;
 
 
     console.log("Looking for '" + query + "'...");
 
+    var req = {
+        hostname: httpParams.hostname,
+        port: httpParams.port,
+        path: httpParams.index + httpParams.actions['search'] + query,
+        method: 'POST'
+    };
+
     // now we have to make the request to elasticsearch
-    var esReq = http.request({
-            hostname: "localhost",
-            port: 9200, // the default elasticsearch port
-            path: "/INDEX/TYPE/_search?q=" + query,
-            method: "POST"  
-        },
+    var esReq = http.request(req,
         function(esRes) {
         var chunks = [],
         length = 0;
@@ -55,19 +58,28 @@ var server = http.createServer(function(req, res) {
 
             _d = JSON.parse(buff.toString());
 
-            //console.log(require("util").inspect(_d.hits));
+            console.log(_d);
 
             data = {};
-            data.total = _d.hits.total;
+            
             data.hits = [];
 
-            _d.hits.hits.forEach(function(hit) {
-                data.hits.push({
-                    title: hit._source.title,
-                    url: hit._source.url
+            if (_d.status === 200) {
+                data.total = _d.hits.total;
+                _d.hits.hits.forEach(function(hit) {
+                    data.hits.push({
+                        title: hit._source.title,
+                        url: hit._source.url
+                    });
                 });
-            });
+            } else {
+                data.error = _d.error;
+            }
 
+            //console.log(require("util").inspect(_d.hits));
+
+
+           
             console.log(data);
 
             _s = JSON.stringify(data);
@@ -93,5 +105,5 @@ var server = http.createServer(function(req, res) {
 
 
 
-server.listen(5345);
-console.log("Server listening on 5345...");
+server.listen(serverParams.port);
+console.log("Server listening on " + serverParams.port + "...");
