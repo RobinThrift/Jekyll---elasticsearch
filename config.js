@@ -2,9 +2,19 @@
 var httpParams = {
     hostname: 'localhost',
     port: 9200, // the default elasticsearch port
-    path: '/INDEX/TYPE/_search?q='
+    index: '/INDEX/TYPE/',
+    actions: {
+    	'search': '_search?q='
+    }
+};
+
+var serverParams = {
+	port: 5345
 };
 
 
 //Http params
 module.exports.httpParams = httpParams;
+//Server params
+module.exports.serverParams = serverParams;
+
