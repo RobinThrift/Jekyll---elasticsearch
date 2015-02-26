@@ -42,25 +42,28 @@
 // modules
 var fs = require("fs"),
     http = require("http"),
+    config = require('./config.js'),
+    httpParams = config.httpParams,
+    files = config.files,
 
 
 // variables
-    httpParams = {
-        hostname: "localhost",
-        port: 9200, // the default elasticsearch port
-        path: "/INDEX/TYPE"
-    },
     req, // this will hold our request
-    indexed = JSON.parse(fs.readFileSync("./search_indexed.json", { encoding: "utf8" })),
-    toIndex = JSON.parse(fs.readFileSync("./search_index.json", { encoding: "utf8" })),
+    indexed = JSON.parse(fs.readFileSync(files.indexed, { encoding: "utf8" })),
+    toIndex = JSON.parse(fs.readFileSync(files.toIndex, { encoding: "utf8" })),
     counter = 0; // keep track, how many docs have been indexed
 
 
-function add(data) {
-    httpParams.method = "POST";
-    httpParams.path = "/INDEX/TYPE";
 
-    req = http.request(httpParams, function(res) {
+function add(data) {
+    var reqParams = {
+        hostname: httpParams.hostname,
+        port: httpParams.port,
+        path: httpParams.index,
+        method: 'POST'
+    };
+
+    req = http.request(reqParams, function(res) {
         //console.log('STATUS: ' + res.statusCode);
         //console.log('HEADERS: ' + JSON.stringify(res.headers));
         res.setEncoding('utf8');
@@ -82,10 +85,15 @@ function add(data) {
 
 
 function update(data, id) {
-    httpParams.method = "PUT";
-    httpParams.path = "/INDEX/TYPE/" + id;
 
-    req = http.request(httpParams, function(res) {
+    var reqParams = {
+        hostname: httpParams.hostname,
+        port: httpParams.port,
+        path: httpParams.index + id,
+        method: 'PUT'
+    };
+
+    req = http.request(reqParams, function(res) {
         console.log('STATUS: ' + res.statusCode);
         console.log('HEADERS: ' + JSON.stringify(res.headers));
         res.setEncoding('utf8');
@@ -113,7 +121,7 @@ function save(data) {
 }
 
 function writeIndexed() {
-    fs.writeFile("./search_indexed.json", JSON.stringify(indexed), function() {
+    fs.writeFile(files.indexed, JSON.stringify(indexed), function() {
         close();
     });
 }
